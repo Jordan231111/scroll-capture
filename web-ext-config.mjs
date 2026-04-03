@@ -12,6 +12,9 @@ export default {
     ".gitignore",
     ".webextignore",
     ".DS_Store",
+    ".amo-upload-uuid",
+    "signed-artifacts",
+    "web-ext-artifacts",
   ],
   build: {
     overwriteDest: true,
