@@ -80,7 +80,7 @@ async function runVisiblePngCapture(tab) {
   await sendStatus(tab.id, "Capturing visible viewport…");
   const dataUrl = await captureVisibleTab(tab.windowId);
   const filename = buildDownloadName(tab.title, "visible", "png");
-  await downloadDataUrl(dataUrl, filename, true);
+  await downloadDataUrlAsBlob(dataUrl, filename, true);
   await sendStatus(tab.id, `Saved ${filename}`);
   return { ok: true, filename };
 }
@@ -216,13 +216,9 @@ async function sendStatus(tabId, message, level = "info") {
   }
 }
 
-async function downloadDataUrl(dataUrl, filename, saveAs) {
-  return browser.downloads.download({
-    url: dataUrl,
-    filename,
-    saveAs,
-    conflictAction: "uniquify",
-  });
+async function downloadDataUrlAsBlob(dataUrl, filename, saveAs) {
+  const { bytes, mimeType } = decodeDataUrl(dataUrl);
+  return downloadBytes(bytes, filename, mimeType, saveAs);
 }
 
 async function downloadBytes(bytes, filename, mimeType, saveAs) {
@@ -260,4 +256,30 @@ function sanitizeFilename(value) {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function decodeDataUrl(dataUrl) {
+  const match = /^data:([^;,]+)?(;base64)?,(.*)$/s.exec(dataUrl);
+  if (!match) {
+    throw new Error("Capture data could not be decoded.");
+  }
+
+  const mimeType = match[1] || "application/octet-stream";
+  const isBase64 = Boolean(match[2]);
+  const body = match[3] || "";
+
+  if (!isBase64) {
+    return {
+      mimeType,
+      bytes: new TextEncoder().encode(decodeURIComponent(body)),
+    };
+  }
+
+  const binary = atob(body);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+
+  return { mimeType, bytes };
 }
