@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll Capture</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel">
+    <div class="eyebrow">Scroll Capture</div>
+    <h1>Screenshot-first page capture</h1>
+    <p class="summary">
+      Use a straight PNG for the current viewport, or expand the page and nested scroll
+      containers into a tiled PDF archive.
+    </p>
+
+    <div class="actions">
+      <button class="action primary" data-mode="visible-png">
+        <span class="label">Visible PNG</span>
+        <span class="hint">Exact current viewport</span>
+      </button>
+
+      <button class="action" data-mode="visible-pdf">
+        <span class="label">Visible PDF</span>
+        <span class="hint">Single-page screenshot PDF</span>
+      </button>
+
+      <button class="action accent" data-mode="expanded-pdf">
+        <span class="label">Expanded PDF</span>
+        <span class="hint">Top-to-bottom with nested scroll regions expanded</span>
+      </button>
+    </div>
+
+    <p class="footnote">
+      Expanded capture flattens sticky and fixed elements to avoid repeated overlays while tiling.
+    </p>
+
+    <div class="status" id="status" aria-live="polite"></div>
+  </main>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

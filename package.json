@@ -1,0 +1,17 @@
+{
+  "name": "scroll-capture",
+  "version": "0.1.0",
+  "description": "Firefox extension for screenshot-first visible and expanded page capture.",
+  "license": "MIT",
+  "scripts": {
+    "start": "web-ext run --firefox=firefox --browser-console",
+    "build": "web-ext build --overwrite-dest",
+    "lint": "web-ext lint"
+  },
+  "devDependencies": {
+    "web-ext": "^10.1.0"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

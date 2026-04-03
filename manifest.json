@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Scroll Capture",
+  "version": "0.1.0",
+  "description": "Capture the current viewport as PNG or build a scroll-aware PDF from the full page, including nested scroll containers.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{3d3a2d2d-54ac-4d88-9ef5-9c2a44f0a3c7}",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "scripting",
+    "tabs"
+  ],
+  "background": {
+    "scripts": [
+      "background/background.js"
+    ],
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Scroll Capture",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.svg",
+      "96": "icons/icon-96.svg"
+    }
+  },
+  "icons": {
+    "48": "icons/icon-48.svg",
+    "96": "icons/icon-96.svg"
+  }
+}
