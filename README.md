@@ -8,6 +8,8 @@ It supports:
 - `Visible PDF`: captures the current viewport and wraps it in a single-page PDF.
 - `Expanded PDF`: walks the full page from top to bottom, expands nested vertical and horizontal scroll containers, flattens sticky and fixed overlays, and captures the result as a tiled PDF.
 
+By default, captures are written directly to Firefox's default downloads folder instead of opening a save dialog.
+
 ## Why this rewrite exists
 
 The previous approach tried to save live application DOM as standalone HTML. That fails on too many modern sites because layout depends on runtime JS, reparsing, font metrics, portals, virtualization, and sticky positioning. This rewrite captures pixels from the live page instead.

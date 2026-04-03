@@ -1,6 +1,6 @@
 {
   "name": "scroll-capture",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Firefox extension for screenshot-first visible and expanded page capture.",
   "license": "MIT",
   "scripts": {

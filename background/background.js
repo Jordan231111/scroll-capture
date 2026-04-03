@@ -4,6 +4,7 @@ const BLOCKED_PROTOCOLS = ["about:", "chrome:", "edge:", "moz-extension:", "view
 const CAPTURE_FORMAT = "png";
 const CAPTURE_QUALITY = 100;
 const SCROLL_SETTLE_MS = 120;
+const SAVE_DIRECTLY_TO_DOWNLOADS = true;
 
 let activeJob = null;
 const downloadUrls = new Map();
@@ -80,7 +81,7 @@ async function runVisiblePngCapture(tab) {
   await sendStatus(tab.id, "Capturing visible viewport…");
   const dataUrl = await captureVisibleTab(tab.windowId);
   const filename = buildDownloadName(tab.title, "visible", "png");
-  await downloadDataUrlAsBlob(dataUrl, filename, true);
+  await downloadDataUrlAsBlob(dataUrl, filename, shouldPromptForSave());
   await sendStatus(tab.id, `Saved ${filename}`);
   return { ok: true, filename };
 }
@@ -102,7 +103,7 @@ async function runVisiblePdfCapture(tab) {
     ]
   );
   const filename = buildDownloadName(tab.title, "visible", "pdf");
-  await downloadBytes(pdfBytes, filename, "application/pdf", true);
+  await downloadBytes(pdfBytes, filename, "application/pdf", shouldPromptForSave());
   await sendStatus(tab.id, `Saved ${filename}`);
   return { ok: true, filename };
 }
@@ -154,7 +155,7 @@ async function runExpandedPdfCapture(tab) {
 
   const pdfBytes = await buildPdfFromTiles(prepared, tiles);
   const filename = buildDownloadName(prepared.title, "expanded", "pdf");
-  await downloadBytes(pdfBytes, filename, "application/pdf", true);
+  await downloadBytes(pdfBytes, filename, "application/pdf", shouldPromptForSave());
   await sendStatus(tab.id, `Saved ${filename}`);
   return { ok: true, filename };
 }
@@ -256,6 +257,10 @@ function sanitizeFilename(value) {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function shouldPromptForSave() {
+  return !SAVE_DIRECTLY_TO_DOWNLOADS;
 }
 
 function decodeDataUrl(dataUrl) {

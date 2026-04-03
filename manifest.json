@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Scroll Capture",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Capture the current viewport as PNG or build a scroll-aware PDF from the full page, including nested scroll containers.",
   "browser_specific_settings": {
     "gecko": {
